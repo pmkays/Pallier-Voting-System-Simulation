@@ -9,9 +9,12 @@ public class Voter
 	private BigInteger votingNumberr;
 	private BigInteger encryptedVoteC;
 	
-	public Voter(String votingID, String votingMessagem)
+	public Voter(String votingID, String votingMessagem, BigInteger votingNumberr) 
 	{
 		this.votingID = votingID;
+		this.votingNumberr = votingNumberr;
+		
+		//converts text-based votes to binary digits
 		if (votingMessagem.equals("Alice"))
 		{
 			this.votingMessagem = "001000";
@@ -21,7 +24,16 @@ public class Voter
 			this.votingMessagem = "000001";
 		}
 		this.encryptedVoteC = new BigInteger("0");
-		this.votingNumberr = new BigInteger("0");
+	} 
+	
+	public String getVotingId() 
+	{
+		return votingID;
+	}
+	
+	public void setVotingId(String votingID)
+	{
+		this.votingID = votingID;
 	}
 
 	public String getVotingMessagem() 
@@ -44,7 +56,7 @@ public class Voter
 		this.encryptedVoteC = c;
 	}
 	
-	public BigInteger getVotingNumberr() 
+	public BigInteger getVotingNumberr()  
 	{
 		return votingNumberr;
 	}
@@ -54,11 +66,10 @@ public class Voter
 		this.votingNumberr = r;
 	}
 	
-	
-	
 	public String toString()
 	{
-		return this.votingMessagem+ " " + this.votingNumberr + " " + this.encryptedVoteC; 
+		return String.format("VotingID: %s, Vote(binary): %s, r: %d, C: %d", 
+				this.votingID, this.votingMessagem, this.votingNumberr, this.encryptedVoteC);
 	}
 	
 
