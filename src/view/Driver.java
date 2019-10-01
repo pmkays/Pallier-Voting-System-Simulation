@@ -17,7 +17,6 @@ public class Driver
 			{
 				VotingEngine votingEngine = new VotingEngine();
 				new MainFrame(votingEngine); 
-
 			}
 		}); 
 	}

@@ -17,11 +17,11 @@ public class Voter
 		//converts text-based votes to binary digits
 		if (votingMessagem.equals("Alice"))
 		{
-			this.votingMessagem = "001000";
+			this.votingMessagem = "00010000";
 		}
 		else
 		{
-			this.votingMessagem = "000001";
+			this.votingMessagem = "00000001";
 		}
 		this.encryptedVoteC = new BigInteger("0");
 	} 

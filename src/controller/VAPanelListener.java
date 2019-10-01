@@ -18,7 +18,7 @@ public class VAPanelListener
 
 	public void vaPanelResults()  
 	{
-		votingEngine.encryptIndividualVote();
+		votingEngine.homomorphicCalculation();
 	}
 	
 	public String getWinners()
