@@ -1,5 +1,7 @@
 package controller;
 
+import java.math.BigInteger;
+
 import model.VotingEngine;
 
 public class VAPanelListener 
@@ -25,5 +27,12 @@ public class VAPanelListener
 	{
 		return votingEngine.getWinners();
 	}
+
+	public void setVoterAmount(BigInteger amount) 
+	{
+		votingEngine.setVoterAmount(amount);
+		
+	}
+
 
 }

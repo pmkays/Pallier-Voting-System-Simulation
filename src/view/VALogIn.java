@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -20,8 +21,10 @@ public class VALogIn extends JPanel
 {
 	private VotingPanelListener listener;
 	private JButton loginButton; 
-	private JLabel voterIdLabel;
-	private JTextField voterIdField;
+	private JLabel vaIdLabel;
+	private JTextField vaIdField;
+	private JLabel vaPassLabel;
+	private JPasswordField vaPassField;
 	private MainFrame mainFrame;
 	
 	public VALogIn(MainFrame mainFrame)
@@ -38,8 +41,10 @@ public class VALogIn extends JPanel
 		
 		//instantiate panel components
 		loginButton = new JButton("Log in");	
-		voterIdLabel = new JLabel("Voter Authority ID: "); 
-		voterIdField = new JTextField(15);
+		vaIdLabel = new JLabel("Voter Authority ID: "); 
+		vaIdField = new JTextField(15);
+		vaPassLabel = new JLabel("Password:");
+		vaPassField = new JPasswordField(15);
 		
 		organiseLayout();
 		
@@ -49,10 +54,11 @@ public class VALogIn extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				String id = voterIdField.getText();
-				
+				String id = vaIdField.getText();
+				String password = String.valueOf(vaPassField.getPassword()); 
+	
 				//ensures that the voter has an id
-				if(!id.isEmpty())
+				if(!id.isEmpty() && !password.isEmpty())
 				{
 					JOptionPane.showMessageDialog(mainFrame,
 					        "Voting Authority: " + id + " login successful.", "Successful login",
@@ -88,16 +94,30 @@ public class VALogIn extends JPanel
 		gc.fill = GridBagConstraints.NONE;
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.insets = new Insets(3,3,3,5);
-		add(voterIdLabel, gc);
+		add(vaIdLabel, gc);
 		
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.LINE_START;
-		add(voterIdField, gc);
+		add(vaIdField, gc);
+		
+		//next row
+		gc.gridy++; 
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		
+		gc.gridx = 0;
+		gc.anchor = GridBagConstraints.LINE_END;
+		gc.insets = new Insets(3,3,3,5);
+		add(vaPassLabel, gc);
+		
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(vaPassField, gc);
 		
 		//final row
 		gc.gridy++; //on 2
 		gc.weightx = 0;
-		gc.weighty = 0.1;
+		gc.weighty = 1;
 		
 		gc.gridx = 1;
 		add(loginButton, gc);

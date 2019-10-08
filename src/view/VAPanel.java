@@ -4,16 +4,21 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 
 import controller.VAPanelListener;
+import controller.VotingPanelListener;
 
 public class VAPanel extends JPanel
 {
 	private JButton generateButton;
 	private JButton resultsButton;
+	private JLabel amountVotersLabel;
+	private JTextField amountVotersField;
+	private VotingPanelListener votingPanelListener;
 	private VAPanelListener listener; 
 	public VAPanel(MainFrame mainFrame)
 	{
@@ -28,6 +33,10 @@ public class VAPanel extends JPanel
 		//instantiate components
 		generateButton = new JButton("Generate Public and Private keys");
 		resultsButton = new JButton("View Results"); 
+		amountVotersLabel = new JLabel("Amount of voters:");
+		amountVotersField = new JTextField(15);
+		amountVotersField.setMaximumSize(amountVotersField.getPreferredSize());
+
 		
 		organiseLayout();
 			
@@ -42,6 +51,7 @@ public class VAPanel extends JPanel
 					JOptionPane.showMessageDialog(mainFrame,
 					        "Public and private keys generated.", "Key Generation Confirmation",
 					        JOptionPane.INFORMATION_MESSAGE);
+					generateButton.setEnabled(false);
 				}
 			}	
 		});	
@@ -57,10 +67,31 @@ public class VAPanel extends JPanel
 					String winner = listener.getWinners();
 					JOptionPane.showMessageDialog(mainFrame,
 					        winner, "Winner Announcement",
-					        JOptionPane.INFORMATION_MESSAGE);			
+					        JOptionPane.INFORMATION_MESSAGE);
 				}
 			}	
 		});	
+		
+		amountVotersField.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				BigInteger amount = new BigInteger(amountVotersField.getText());
+				if(listener!= null)
+				{
+					votingPanelListener.setMaxVotes(amount);
+					listener.setVoterAmount(amount);
+					JOptionPane.showMessageDialog(mainFrame,
+					        "Maximum amount of voters set!", "Maximum Voters Confirmation",
+					        JOptionPane.INFORMATION_MESSAGE);
+					amountVotersField.setEnabled(false);
+					mainFrame.terminateSession();
+				}
+				
+			}
+			
+		});
 	}
 	
 	private void organiseLayout() 
@@ -68,16 +99,23 @@ public class VAPanel extends JPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		generateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		resultsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		amountVotersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		amountVotersField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		add(Box.createVerticalGlue());
 		add(generateButton);		
 		add(Box.createRigidArea(new Dimension(20,20)));
 		add(resultsButton);
+		add(Box.createRigidArea(new Dimension(20,20)));
+		add(amountVotersLabel);
+		add(amountVotersField);
 		add(Box.createVerticalGlue());
+
 	}
 
-	public void setListener(VAPanelListener listener)
+	public void setListener(VAPanelListener listener, VotingPanelListener votingPanelListener)
 	{
 		this.listener = listener;
+		this.votingPanelListener = votingPanelListener;
 	}
 }

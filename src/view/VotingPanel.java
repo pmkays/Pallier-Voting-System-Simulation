@@ -63,11 +63,20 @@ public class VotingPanel extends JPanel
 				BigInteger randomNumber = new BigInteger(randomNumberField.getText());
 				if(listener != null)
 				{
-					listener.votingPanelEventOccurred(message, randomNumber); 
-					JOptionPane.showMessageDialog(mainFrame,
-					        "Thank you for voting!", "Voting Confirmation",
-					        JOptionPane.INFORMATION_MESSAGE);	
-					mainFrame.terminateSession();
+					if(!listener.votingPanelEventOccurred(message, randomNumber))
+					{
+						voteButton.setEnabled(false);
+						JOptionPane.showMessageDialog(mainFrame,
+						        "Vote could not be processed as maximum amount of votes have been reached", "Voting Error",
+						        JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(mainFrame,
+						        "Thank you for voting!", "Voting Confirmation",
+						        JOptionPane.INFORMATION_MESSAGE);	
+						mainFrame.terminateSession();
+					}
 				}	
 			}
 		});

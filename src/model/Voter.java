@@ -6,22 +6,28 @@ public class Voter
 {
 	private String votingID;
 	private String votingMessagem; 
+	private String voterPass; 
 	private BigInteger votingNumberr;
 	private BigInteger encryptedVoteC;
+	private static String maxBinary = "";
 	
-	public Voter(String votingID, String votingMessagem, BigInteger votingNumberr) 
+	public Voter(String votingID, String votingMessagem, String voterPass, BigInteger votingNumberr) 
 	{
 		this.votingID = votingID;
 		this.votingNumberr = votingNumberr;
+		this.voterPass = voterPass;
+		int index = maxBinary.length()/2;
 		
-		//converts text-based votes to binary digits
+		//converts text-based votes from user input to binary digits
 		if (votingMessagem.equals("Alice"))
 		{
-			this.votingMessagem = "00010000";
+			//inserts a 1 in the middle of the string
+			this.votingMessagem = maxBinary.substring(0, index-1) + "1" + maxBinary.substring(index);
 		}
 		else
 		{
-			this.votingMessagem = "00000001";
+			//inserts a 1 at the end of the string for Bob
+			this.votingMessagem =  maxBinary.substring(0, maxBinary.length()-1) + "1";
 		}
 		this.encryptedVoteC = new BigInteger("0");
 	} 
@@ -70,6 +76,17 @@ public class Voter
 	{
 		return String.format("VotingID: %s, Vote(binary): %s, r: %d, C: %d", 
 				this.votingID, this.votingMessagem, this.votingNumberr, this.encryptedVoteC);
+	}
+
+	public String getVoterPass() 
+	{
+		// TODO Auto-generated method stub
+		return this.voterPass;
+	}
+	
+	public static void setMaxBinary(String max)
+	{
+		maxBinary = max;
 	}
 	
 

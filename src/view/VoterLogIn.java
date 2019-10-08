@@ -19,6 +19,8 @@ public class VoterLogIn extends JPanel
 	private JButton loginButton; 
 	private JLabel voterIdLabel;
 	private JTextField voterIdField;
+	private JLabel voterPassLabel;
+	private JPasswordField voterPassField;
 	private MainFrame mainFrame;
 	private VotingPanel votingPanel; 
 	
@@ -39,6 +41,8 @@ public class VoterLogIn extends JPanel
 		loginButton = new JButton("Log in");
 		voterIdLabel = new JLabel("Voter Unique ID: "); 
 		voterIdField = new JTextField(15);
+		voterPassLabel = new JLabel("Password: "); 
+		voterPassField = new JPasswordField(15);
 		
 		organiseLayout();
 		
@@ -48,27 +52,33 @@ public class VoterLogIn extends JPanel
 			public void actionPerformed(ActionEvent e) 
 			{
 				String id = voterIdField.getText();
+				String password = String.valueOf(voterPassField.getPassword()); 
 				if(listener != null)
 				{
+					String searchResult = listener.setVoterID(id, password);
 					//checks if voter has voted before
-					if(listener.setVoterID(id))
+					switch(searchResult)
 					{
+					case "password incorrect":
+						JOptionPane.showMessageDialog(mainFrame,
+						        "Voter: " + id + "'s password is incorrect","Error",
+						        JOptionPane.ERROR_MESSAGE);	
+						break;
+					case "already voted":
+						JOptionPane.showMessageDialog(mainFrame,
+						        "Voter: " + id + " has already voted","Error",
+						        JOptionPane.ERROR_MESSAGE);	
+						break;
+					case "pass":
 						JOptionPane.showMessageDialog(mainFrame,
 						        "Voter: " + id + " login successful. Please remember "
 						        		+ "you can only vote once.", "Successful Login",
 						        JOptionPane.INFORMATION_MESSAGE);	
-						
-						//next panel set up
 						mainFrame.getVoterLogIn().setVisible(false);
 						mainFrame.add(mainFrame.getVotingPanel(), BorderLayout.CENTER);
 						votingPanel.setListener(listener);
 						mainFrame.getVotingPanel().setVisible(true);
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(mainFrame,
-						        "Voter: " + id + " has already voted","Error",
-						        JOptionPane.ERROR_MESSAGE);	
+						break;	
 					}
 				}	
 			}
@@ -102,10 +112,24 @@ public class VoterLogIn extends JPanel
 		gc.anchor = GridBagConstraints.LINE_START;
 		add(voterIdField, gc);
 		
+		//next row
+		gc.gridy++; 
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		
+		gc.gridx = 0;
+		gc.anchor = GridBagConstraints.LINE_END;
+		gc.insets = new Insets(3,3,3,5);
+		add(voterPassLabel, gc);
+		
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(voterPassField, gc);
+		
 		//final row
 		gc.gridy++;
 		gc.weightx = 0;
-		gc.weighty = 0.1;
+		gc.weighty = 1;
 		
 		gc.gridx = 1;
 		add(loginButton, gc);

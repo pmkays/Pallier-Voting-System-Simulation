@@ -22,7 +22,6 @@ public class VotingBooth
 	
 	public void encryptIndividualVote(CloudVotingServer vs, Voter voter)
 	{
-//		vs = new CloudVotingServer(va, this);
 		
 		BigInteger g = va.getG();
 		BigInteger n = va.getN();
@@ -50,9 +49,7 @@ public class VotingBooth
 		vs.addEncryptedVotes(C);
 		
 		System.out.println(voter); 
-		}
-		
-//		vs.homomorphicCalculation();	
+		}	
 	
 
 	public ArrayList<Voter> getVoters() 

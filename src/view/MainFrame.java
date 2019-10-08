@@ -55,12 +55,13 @@ public class MainFrame extends JFrame
 		});
 		
 		//set up listeners that will be used 
-		VAPanelListener vaPanelListener= new VAPanelListener(votingEngine);
-		vaPanel.setListener(vaPanelListener);
 		
 		VotingPanelListener votingPanelListener = new VotingPanelListener(votingEngine);
 		voterLogIn.setListener(votingPanelListener);
 		votingPanel.setListener(votingPanelListener);
+		
+		VAPanelListener vaPanelListener= new VAPanelListener(votingEngine);
+		vaPanel.setListener(vaPanelListener, votingPanelListener);
 
 		add(terminateButton, BorderLayout.NORTH);
 		add(choosePanel, BorderLayout.CENTER);

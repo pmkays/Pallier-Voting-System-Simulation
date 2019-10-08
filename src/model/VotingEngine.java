@@ -15,9 +15,9 @@ public class VotingEngine
 		vs = new CloudVotingServer(va, vb);
 	} 
 	
-	public void addVoter(String voterID, String message, BigInteger random)
+	public void addVoter(String voterID, String voterPass, String message, BigInteger random)
 	{
-		Voter voter = new Voter(voterID, message, random);
+		Voter voter = new Voter(voterID,voterPass, message, random);
 		vb.addVoter(voter);
 		vb.encryptIndividualVote(vs, voter);
 	}
@@ -29,11 +29,6 @@ public class VotingEngine
 		va.privateKeyGenerator();
 	}
 	
-//	public void encryptIndividualVote()
-//	{		
-//		
-//	}
-
 	public ArrayList<Voter> getVoters() 
 	{
 		return vb.getVoters();
@@ -47,5 +42,12 @@ public class VotingEngine
 	public void homomorphicCalculation() 
 	{
 		vs.homomorphicCalculation();	
+	}
+
+	public void setVoterAmount(BigInteger amount) 
+	{
+		String maxBinary = ConversionUtilities.convertToBinaryInitial(amount);
+		Voter.setMaxBinary(maxBinary) ;
+		
 	}
 }
